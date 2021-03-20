@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Math</string>
+    <string name="app_name">Math-Recycler</string>
     <string name="hint_nama">Ketik Nama</string>
     <string name="hint_alamat">Ketik Alamat</string>
     <string name="hint_hp">Ketik HP/Phone</string>

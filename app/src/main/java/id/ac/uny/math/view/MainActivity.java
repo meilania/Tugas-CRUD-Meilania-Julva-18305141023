@@ -7,6 +7,8 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -23,10 +25,11 @@ public class MainActivity extends AppCompatActivity {
 
     public static int CRUD_REQ = 222;
 
-    LinearLayout linMain;
+    RecyclerView rvMain;
     FloatingActionButton btnAdd;
-
+    LinearLayoutManager linearLayoutManager;
     List<MhsEntity> mhsEntityList = new ArrayList<>();
+    MhsRecyclerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,35 +41,28 @@ public class MainActivity extends AppCompatActivity {
         initaction();
     }
 
-    void updateView(MhsEntity mhsEntity) {
-        for (int i = 0; i < linMain.getChildCount(); i++) {
-            if (((ViewItemMhs) linMain.getChildAt(i)).getMhsEntity().getId() == mhsEntity.getId()) {
-                ((ViewItemMhs) linMain.getChildAt(i)).setMhsEntity(mhsEntity);
-                break;
-            }
-        }
+    void updateView(MhsEntity mhsEntity, int position) {
+        adapter.updateItem(mhsEntity, position);
     }
 
     void addViewData(MhsEntity mhsEntity) {
-        ViewItemMhs viewItemMhs = new ViewItemMhs(this);
-        viewItemMhs.setMhsEntity(mhsEntity);
-        linMain.addView(viewItemMhs, 0);
+        adapter.addMhs(mhsEntity);
     }
 
     void initViewData() {
         if (mathDatabase.getMhsDao().getMhs() == null) return;
-
         mhsEntityList = mathDatabase.getMhsDao().getMhs();
-
-        linMain.removeAllViews();
-        for (int i = 0; i < mhsEntityList.size(); i++) {
-            addViewData(mhsEntityList.get(i));
-        }
+        adapter.setMhsEntityList(mhsEntityList);
+        adapter.notifyDataSetChanged();
     }
 
     void intiviews() {
-        linMain = findViewById(R.id.linMain);
         btnAdd = findViewById(R.id.btnAdd);
+        linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        rvMain = findViewById(R.id.rvMain);
+        rvMain.setLayoutManager(linearLayoutManager);
+        adapter = new MhsRecyclerAdapter();
+        rvMain.setAdapter(adapter);
     }
 
     void initaction() {
@@ -86,13 +82,13 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == CRUD_REQ && resultCode == RESULT_OK) {
             MhsParcel mhsParcel = data.getParcelableExtra("mhsEntity");
             MhsEntity mhsEntity = mhsParcel.toEntity();
-
+            int position = data.getIntExtra("position", 0);
             boolean isNew = data.getBooleanExtra("isNew", false);
 
             if (isNew) {
                 addViewData(mhsEntity);
             } else {
-                updateView(mhsEntity);
+                updateView(mhsEntity, position);
             }
         }
     }

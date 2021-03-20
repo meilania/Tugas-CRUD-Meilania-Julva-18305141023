@@ -26,6 +26,7 @@ public class EditActivity extends AppCompatActivity {
 
     MhsParcel mhsParcel;
     boolean isNew = false;
+    int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,7 @@ public class EditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit);
 
         mhsParcel = getIntent().getParcelableExtra("mhsEntity");
+        position = getIntent().getIntExtra("position", 0);
         isNew = (mhsParcel == null);
 
         initview();
@@ -89,6 +91,7 @@ public class EditActivity extends AppCompatActivity {
                 Intent intent = getIntent();
                 intent.putExtra("mhsEntity", mhsParcel);
                 intent.putExtra("isNew", isNew);
+                intent.putExtra("position", position);
                 setResult(RESULT_OK, intent);
                 finish();
             }

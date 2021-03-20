@@ -13,7 +13,8 @@ public class MathApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        mathDatabase = Room.databaseBuilder(getApplicationContext(), MathDatabase.class, "math-db")
+        mathDatabase = Room.databaseBuilder(getApplicationContext(),
+                MathDatabase.class, "math-r-db")
                 .allowMainThreadQueries().build();
     }
 }

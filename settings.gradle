@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name = "Math"
+rootProject.name = "Math-Recycler"
