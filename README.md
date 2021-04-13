@@ -5,7 +5,7 @@
 ## Clone/download project
 Silahkan clone ke local repository kalian :
 ```
-git clone https://github.com/hangga/Math-Recycler.git
+git clone https://github.com/Materi-PPM-Math-UNY/CRUD-Recycler.git
 ```
 
 CRUD Database Sederhana menggunakan <a href="https://developer.android.com/training/data-storage/room" target="_blank">Room DB</a>    
